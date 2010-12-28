@@ -377,6 +377,11 @@ def usage():
 
 def version():
     print "remotestick-server v" + VERSION
+    
+@route('/gui/:filename#.*#')
+def gui(filename):
+    return  static_file(filename, root='./gui/')
+
 
 def main():
     try:
