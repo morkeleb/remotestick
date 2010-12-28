@@ -1,8 +1,19 @@
 <html>
-	<head>
-		<title>Remotestick</title>
-	</head>
-	<body>
-		
-	</body>
+    <head>
+        <title>Remotestick</title>
+        <script type="text/html" id="device_template">
+            <div id="<%=id%>" class="<%=(i % 2 == 1 ? " even" : "")%>">
+            	<div>
+            		<div>
+            			<%=description%>
+            		</div>
+					<div>
+						<div class="onOff"></div>
+					</div>
+            	</div>
+            </div>
+        </script>
+    </head>
+    <body>
+    </body>
 </html>
