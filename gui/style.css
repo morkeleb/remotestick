@@ -1,0 +1,23 @@
+body {
+	background-color: #373737;
+	color: white;
+}
+.device-list-description {
+	font-size: 18pt;
+}
+.device-list-controls{
+	text-align:right;
+}
+.device-list-border {
+	padding: 5pt;
+	border: 1pt solid grey;
+	font-size: 11pt;
+	
+}
+.device-list {
+	float: left;
+	width: 300pt;
+}
+.links {
+	float: right;	
+}
