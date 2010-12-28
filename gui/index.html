@@ -18,11 +18,11 @@
                 <div class="device-list-controls">
                     <div class="onOff">
                         <div id="radio">
-                            <input type="radio" id="off" name="radio"  <% if(obj.last_command != "on") {  %> checked="checked" <%}%> onclick="(<%= obj.off %>)();"/>
+                            <input type="radio" id="off" name="radio"  <% if(obj.last_command != "on") {  %> checked="checked" <%}%> onclick="turnOff(<%=obj.id%>);"/>
                             <label for="off">
                                 Off
                             </label>
-                            <input type="radio" id="on" name="radio"  <% if(obj.last_command == "on") {  %> checked="checked" <%}%> onclick="(<%= obj.on %>)();"  />
+                            <input type="radio" id="on" name="radio"  <% if(obj.last_command == "on") {  %> checked="checked" <%}%> onclick="turnOn(<%=obj.id%>);"  />
                             <label for="on">
                                 On
                             </label>
@@ -34,23 +34,48 @@
                 </div>
             </div>
         </script>
+		<script type="text/javascript">
+			function turnOn(id) {
+				$.ajax({
+						url: "../devices/" + id + "/on.xml"
+					});
+			}
+			function turnOff(id) {
+				$.ajax({
+						url: "../devices/" + id + "/off.xml"
+					});
+			}
+			function device(id, description, last_command ) {
+				var self = this;
+				self.description = description;
+				self.id = id;
+				self.last_command = last_command;
+				return self;
+			}
+			
+			function loadDevices() {
+				var template = window.tmpl("device_list_template");
+				
+				$('#devices').html('');
+				$.ajax({url:"../devices.xml", success:function(xml) {
+					xml.find('device').each(function() {
+						var d = $(this);
+						var id = d.attr("id");
+						var lastcmd = d.find('lastcmd').text();
+						var description = d.find('name').text();
+						var dev = new device(id, description, lastcmd);
+						$('#devices').append(template(dev));
+					})
+					$( "#radio").buttonset();	
+				}})
+				
+		        
+			}
+		
+		</script>
         <script type="text/javascript">
             $(function(){
-                var device = {
-                    description: 'test',
-                    on: function(){
-                        alert('test on');
-                    },
-                    off: function(){
-                        alert('test off');
-                    }
-                };
-                var elem = window.tmpl("device_list_template", device);
-		
-				$('#devices').append(elem);
-				
-				$( "#radio").buttonset();
-		        		
+        		loadDevices();		
             });
         </script>
     </head>
