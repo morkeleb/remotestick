@@ -1,19 +1,72 @@
 <html>
     <head>
         <title>Remotestick</title>
-        <script type="text/html" id="device_template">
-            <div id="<%=id%>" class="<%=(i % 2 == 1 ? " even" : "")%>">
-            	<div>
-            		<div>
-            			<%=description%>
-            		</div>
-					<div>
-						<div class="onOff"></div>
-					</div>
-            	</div>
+        <script src="jquery-1.4.4.min.js">
+        </script>
+        <script src="microtemplates.js">
+        </script>
+        <script src="theme/js/jquery-ui-1.8.7.custom.min.js">
+        </script>
+		<link REL="StyleSheet" type="text/css" href="theme/css/dark-hive/jquery-ui-1.8.7.custom.css"></link>
+        <script type="text/html" id="device_list_template">
+            <div class="device-list-border">
+                <div class="device-list-description">
+                    <%=obj.description %>
+                </div>
+                <div class="device-list-controls">
+                    <div class="onOff">
+                        <div id="radio">
+                            <input type="radio" id="off" name="radio"  <% if(obj.last_command != "on") {  %> checked="checked" <%}%> onclick="(<%= obj.off %>)();"/>
+                            <label for="off">
+                                Off
+                            </label>
+                            <input type="radio" id="on" name="radio"  <% if(obj.last_command == "on") {  %> checked="checked" <%}%> onclick="(<%= obj.on %>)();"  />
+                            <label for="on">
+                                On
+                            </label>
+                        </div>
+                    </div>
+		
+                    <div class="slide">
+                    </div>
+                </div>
             </div>
+        </script>
+        <script type="text/javascript">
+            $(function(){
+                var device = {
+                    description: 'test',
+                    on: function(){
+                        alert('test on');
+                    },
+                    off: function(){
+                        alert('test off');
+                    }
+                };
+                var elem = window.tmpl("device_list_template", device);
+		
+				$('#devices').append(elem);
+				
+				$( "#radio").buttonset();
+		        		
+            });
         </script>
     </head>
     <body>
+        <div id="devices" class="device-list"></div>
+        <div class="links">
+            <h3>REST API Documentation</h3>
+            <ul>
+                <li>
+                    <a href="https://github.com/pakerfeldt/remotestick/wiki/REST-API">Api</a>
+                </li>
+                <li>
+                    <a href="https://github.com/pakerfeldt/remotestick/wiki/REST-API:-Devices">Devices</a>
+                </li>
+                <li>
+                    <a href="https://github.com/pakerfeldt/remotestick/wiki/REST-API:-Methods">Methods</a>
+                </li>
+            </ul>
+        </div>
     </body>
 </html>
