@@ -17,13 +17,13 @@
                 </div>
                 <div class="device-list-controls">
                     <div class="onOff">
-                        <div id="radio">
-                            <input type="radio" id="off" name="radio"  <% if(obj.last_command != "on") {  %> checked="checked" <%}%> onclick="turnOff(<%=obj.id%>);"/>
-                            <label for="off">
+                        <div id="radio<%=obj.id%>">
+                            <input type="radio" id="off<%=obj.id%>" name="radio<%=obj.id%>"  <% if(obj.last_command != "ON") {  %> checked="checked" <%}%> onclick="turnOff(<%=obj.id%>);"/>
+                            <label for="off<%=obj.id%>">
                                 Off
                             </label>
-                            <input type="radio" id="on" name="radio"  <% if(obj.last_command == "on") {  %> checked="checked" <%}%> onclick="turnOn(<%=obj.id%>);"  />
-                            <label for="on">
+                            <input type="radio" id="on<%=obj.id%>" name="radio<%=obj.id%>"  <% if(obj.last_command == "ON") {  %> checked="checked" <%}%> onclick="turnOn(<%=obj.id%>);"  />
+                            <label for="on<%=obj.id%>">
                                 On
                             </label>
                         </div>
@@ -58,15 +58,19 @@
 				
 				$('#devices').html('');
 				$.ajax({url:"../devices.xml", success:function(xml) {
-					xml.find('device').each(function() {
+					$(xml).find('device').each(function() {
 						var d = $(this);
 						var id = d.attr("id");
 						var lastcmd = d.find('lastcmd').text();
 						var description = d.find('name').text();
 						var dev = new device(id, description, lastcmd);
-						$('#devices').append(template(dev));
+						var temp = template(dev);
+						
+						$('#devices').append(temp);
+						$("#radio"+id).buttonset();
+							
 					})
-					$( "#radio").buttonset();	
+					
 				}})
 				
 		        
