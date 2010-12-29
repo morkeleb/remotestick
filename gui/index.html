@@ -29,8 +29,9 @@
                         </div>
                     </div>
 		
-                    <div class="slide">
+                    <div class="slide" id="dim<%=obj.id%>">
                     </div>
+					<dir class="clear"></dir>
                 </div>
             </div>
         </script>
@@ -43,6 +44,11 @@
 			function turnOff(id) {
 				$.ajax({
 						url: "../devices/" + id + "/off.xml"
+					});
+			}
+			function dim(id, level) {
+				$.ajax({
+						url: "../devices/" + id + "/dim/level.xml"
 					});
 			}
 			function device(id, description, last_command ) {
@@ -68,6 +74,7 @@
 						
 						$('#devices').append(temp);
 						$("#radio"+id).buttonset();
+						$('#dim'+id).slider({ min:0, max:100, slide:function(event, ui){ dim(id, ui.value);}, range:"min"});
 							
 					})
 					

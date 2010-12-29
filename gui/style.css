@@ -2,6 +2,19 @@ body {
 	background-color: #373737;
 	color: white;
 }
+.clear {
+	clear:both;
+}
+.slide {
+	width:100pt;
+	float:right;
+	margin: 10pt;
+}
+
+.onOff{
+	float:right;
+	clear:right;
+}
 .device-list-description {
 	font-size: 18pt;
 }
