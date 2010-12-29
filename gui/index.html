@@ -52,11 +52,12 @@
 						url: "../devices/" + id + "/dim/level.xml"
 					});
 			}
-			function device(id, description, last_command ) {
+			function device(id, description, last_command, dimmer ) {
 				var self = this;
 				self.description = description;
 				self.id = id;
 				self.last_command = last_command;
+				self.dimmer = dimmer;
 				return self;
 			}
 			
@@ -70,8 +71,15 @@
 						var id = d.attr("id");
 						var lastcmd = d.find('lastcmd').text();
 						var description = d.find('name').text();
-						var dev = new device(id, description, lastcmd);
+						var dimmer = false;
+						d.find('supportedMethod').each(function() {
+							var m = $(this);
+							if(m.text() == "TELLSTICK_DIM") { dimmer = true;}
+						});
+						
+						var dev = new device(id, description, lastcmd, dimmer);
 						var temp = template(dev);
+						
 						
 						$('#devices').append(temp);
 						$("#radio"+id).buttonset();
